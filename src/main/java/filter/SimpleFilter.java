@@ -42,11 +42,9 @@ import com.netflix.zuul.filters.ZuulServletFilter;
 
 public class SimpleFilter extends ZuulFilter{
 
-	private StringRedisTemplate stringRedisTemplate;
 	
-	public  SimpleFilter(StringRedisTemplate redisTemplate) {
+	public  SimpleFilter() {
 		super();
-		stringRedisTemplate = redisTemplate;
 		
 	}
 
@@ -67,41 +65,6 @@ public class SimpleFilter extends ZuulFilter{
 		}
 		if(serviceId!= null && !serviceId.isEmpty())
 			ctx.set("serviceId",serviceId);
-//		ctx.addZuulRequestHeader("X-Forwarded-Prefix","/bookmark-service2" );
-//		ctx.put("requestURI",ctx.getRequest().getRequestURI() );
-//		System.out.println(ctx.getRouteHost());
-//		String uri = ctx.getRequest().getRequestURI();
-//		System.out.println(uri);
-//		if(uri.contains("bookmark"))
-//		{	
-//			String service ="bookmark";
-//			Integer startIndex = uri.indexOf("/", uri.indexOf(service))+1;
-//			String dealerID = uri.substring(uri.indexOf("/", uri.indexOf(service))+1, uri.indexOf("/",startIndex));
-//			String serviceId = getSrerviceIdFromRedis(dealerID, service);
-//			if(serviceId != null && !serviceId.isEmpty())
-//			{
-//				try {
-////					ctx.put("requestURI", uri.substring(startIndex-1, uri.length()));
-////					ctx.put("proxy", "1");
-//					ctx.set("serviceId",serviceId);
-////					ctx.setRouteHost(null);
-////					ctx.addOriginResponseHeader("X-Zuul-ServiceId","bookmark-service2");
-////					ctx.addZuulRequestHeader(
-////							"X-Forwarded-Host",
-////							ctx.getRequest().getServerName() + ":"
-////									+ String.valueOf(ctx.getRequest().getServerPort()));
-////					ctx.addZuulRequestHeader(
-////							ZuulHeaders.X_FORWARDED_PROTO,
-////							ctx.getRequest().getScheme());
-//		//			if (StringUtils.hasText(route.getPrefix())) {
-//		//			ctx.addZuulRequestHeader("X-Forwarded-Prefix","/"+serviceId );
-//				} catch (Exception e){
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-		
-
 		return null;
 	}
 
@@ -123,15 +86,6 @@ public class SimpleFilter extends ZuulFilter{
 		return "route";
 	}
 	
-	private String getSrerviceIdFromRedis(String dealerID, String service){
-		String result ="";
-		try {
-			result =(String) stringRedisTemplate.opsForHash().get("Dealer:"+service+":"+dealerID, "serviceId");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
+
 
 }
